@@ -23,4 +23,11 @@ class DemoControllerTest {
                 .andExpect(content().string("Congrats!! Your deployed to Azure.."));
     }
 
+    @Test
+    void shouldReturnMessage2()throws Exception{
+        mockMvc.perform((get("/azure-devops/message2")))
+                .andExpect(status().isOk())
+                .andExpect(content().string("Congrats!! This is second message...!!"));
+    }
+
 }
