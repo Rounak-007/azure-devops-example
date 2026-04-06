@@ -20,7 +20,7 @@ class DemoControllerTest {
     void shouldReturnWelcomeMessage() throws Exception {
         mockMvc.perform(get("/azure-devops/message"))
                 .andExpect(status().isOk())
-                .andExpect(content().string("Congrats!! Your Application is successfully deployed to Azure.."));
+                .andExpect(content().string("Congrats!! Your deployed to Azure.."));
     }
 
 }
