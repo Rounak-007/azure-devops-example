@@ -1,27 +1,13 @@
-# # Maven
-# # Build your Java project and run tests with Apache Maven.
-# # Add steps that analyze code, save build artifacts, deploy, and more:
-# # https://docs.microsoft.com/azure/devops/pipelines/languages/java
-
-# trigger:
-# - main
-
-# pool: Default
-
-# steps:
-# - task: Maven@3
-#   inputs:
-#     mavenPomFile: 'pom.xml'
-#     mavenOptions: '-Xmx3072m'
-#     javaHomeOption: 'JDKVersion'
-#     jdkVersionOption: '1.11'
-#     jdkArchitectureOption: 'x64'
-#     publishJUnitResults: true
-#     testResultsFiles: '**/surefire-reports/TEST-*.xml'
-#     goals: 'package'
+ # Maven
+ # Build your Java project and run tests with Apache Maven.
+ # Add steps that analyze code, save build artifacts, deploy, and more:
+ # https://docs.microsoft.com/azure/devops/pipelines/languages/java
 
 trigger:
 - main
+
+variables:
+  appName: 'my-spring-app123'
 
 pool:
   name: Default
@@ -29,3 +15,20 @@ pool:
 steps:
 - script: mvn clean package
   displayName: Build with Maven
+
+#Step 2: Copy JAR to staging folder
+- task: CopyFiles@2
+  displayName: Copy JAR to artifact staging directory
+  inputs:
+    SourceFolder: '$(System.DefaultWorkingDirectory)'
+    Contents: '**/target/*.jar'
+    TargetFolder: '$(Build.ArtifactStagingDirectory)'
+
+# Step 3: Deploy to Azure Web App
+- task: AzureWebApp@1
+  displayName: Deploy to Azure Web App
+  inputs:
+    azureSubscription: 'Rounak-007'
+    appName: '$(appName)'
+    package: '$(Build.ArtifactStagingDirectory)/**/*.jar'
+
