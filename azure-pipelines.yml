@@ -28,7 +28,7 @@ steps:
 - task: AzureWebApp@1
   displayName: Deploy to Azure Web App
   inputs:
-    azureSubscription: 'Rounak-007'
+    azureSubscription: 'uamanagedidentity'
     appName: '$(appName)'
     package: '$(Build.ArtifactStagingDirectory)/**/*.jar'
 
